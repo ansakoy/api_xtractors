@@ -16,6 +16,8 @@ class Extractor(object):
         self.csv_file = None
         self.csv_writer = None
         self.json_file = None
+        self.txt_file1 = None
+        self.txt_file2 = None
         self.first = True
 
     def start_csv(self, headers):
@@ -57,3 +59,16 @@ class Extractor(object):
             except:
                 values[header] = str(data[header])
         self.csv_writer.writerow(values)
+
+    def start_txt(self):
+        fname = self.filename + '.txt'
+        self.txt_file = open(fname, 'w')
+
+    def stop_txt(self):
+        self.txt_file.close()
+
+    def write_txt(self, line):
+        if not self.first:
+            self.txt_file.write('\n')
+        self.txt_file.write(line)
+        self.first = False
